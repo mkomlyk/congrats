@@ -126,7 +126,7 @@ var T=[
 ];
 ["silver","gold","platinum","titanium","jade","pearl","emerald","ruby","sapphire","diamond","double-diamond","triple-diamond","blue-diamond","black-diamond","royal","double-royal","triple-royal","blue-royal","black-royal"].forEach(function(r){
  var nm=r.split("-").map(function(s){return s.charAt(0).toUpperCase()+s.slice(1)}).join(" ")+" Ambassador";
- T.push({id:"rank-"+r,g:"g_rank",name:nm,hole:r==="titanium"?[996,506,366]:RANK.hole,box:RANK.box,color:RANK.color,shadow:true,noSplit:true});
+ T.push({id:"rank-"+r,g:"g_rank",name:nm,hole:r==="titanium"?[996,506,366]:RANK.hole,box:RANK.box,color:RANK.color,shadow:true,noSplit:true,oneLine:true});
 });
 var GROUPS=["g_new","g_fast","g_rank","g_bonus"];
 
@@ -203,6 +203,8 @@ function drawName(c){
  var bx=tpl.box,w=bx[2]*0.94,h=bx[3],LH=1.15;
  c.save();c.textAlign="center";c.textBaseline="middle";
  var max=Math.min(Math.floor(h/lines.length/LH),150);
+ /* статусы: имя и фамилия в одну строку; если не помещается крупно — две строки */
+ if(tpl.oneLine&&lines.length===2){var one=a+" "+b,m1=Math.min(Math.floor(h/LH),130);if(fitSize(c,one,w,m1)>=72){lines=[one];max=m1}}
  /* длинную двойную фамилию переносим по дефису на отдельную строку */
  if(!tpl.noSplit&&b&&b.indexOf("-")>0&&fitSize(c,b,w,max)<max*0.62){var i=b.indexOf("-");lines=[a,b.slice(0,i+1),b.slice(i+1)].filter(Boolean);max=Math.min(Math.floor(h/lines.length/LH),150)}
  var sizes=lines.map(function(l){return fitSize(c,l,w,max)});
