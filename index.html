@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вітальна картка партнера</title>
+<meta name="description" content="Фото, ім'я та прізвище — і готова вітальна картка у фірмовому стилі.">
+<style>
+@font-face{font-family:"MontserratB";src:url("assets/fonts/Montserrat-Bold.woff2") format("woff2");font-weight:700;font-display:block}
+:root{--bg:#0e1330;--card:#182046;--line:#2c3670;--txt:#eef1ff;--muted:#a9b1d9;--acc1:#7b4dff;--acc2:#27b4ff;--warn:#ffd25e}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:520px;margin:0 auto;padding:16px 16px 40px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+h1{font-size:20px;line-height:1.25;margin:0}
+.lang{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex-shrink:0}
+.lang button{background:none;border:0;color:var(--muted);padding:7px 12px;font-weight:600;cursor:pointer;font-size:14px}
+.lang button.on{background:var(--line);color:var(--txt)}
+.sub{color:var(--muted);font-size:14px;margin:0 0 16px;line-height:1.4}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:14px}
+label{display:block;font-size:13px;color:var(--muted);margin:0 0 6px;font-weight:600}
+.step{display:inline-block;width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#fff;font-size:12px;text-align:center;line-height:20px;margin-right:6px}
+select,input[type=text]{width:100%;font-size:16px;padding:12px;border-radius:10px;border:1px solid var(--line);background:#0f1638;color:var(--txt);outline:none}
+select:focus,input[type=text]:focus{border-color:var(--acc2)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.hint{font-size:13px;color:var(--warn);margin-top:6px;min-height:0}
+.hint:empty{display:none}
+.note{font-size:13px;line-height:1.45;color:var(--txt);background:rgba(39,180,255,.12);border:1px solid rgba(39,180,255,.35);border-radius:10px;padding:9px 11px;margin:0 0 12px}
+.stage{position:relative;width:100%;aspect-ratio:1/1;border-radius:12px;overflow:hidden;background:#000;touch-action:none;user-select:none;-webkit-user-select:none}
+#cv{width:100%;height:100%;display:block;cursor:grab}
+#cv.dragging{cursor:grabbing}
+.tools{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.btn{appearance:none;border:1px solid var(--line);background:#121a40;color:var(--txt);border-radius:10px;padding:11px 6px;font-size:14px;font-weight:600;cursor:pointer;text-align:center}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{opacity:.45;cursor:default}
+.zoom{display:flex;align-items:center;gap:10px;margin-top:12px}
+.zoom span{font-size:13px;color:var(--muted);white-space:nowrap}
+input[type=range]{flex:1;accent-color:var(--acc2)}
+.main{width:100%;margin-top:10px;border:0;background:linear-gradient(135deg,var(--acc1),var(--acc2));color:#fff;font-size:17px;padding:15px}
+.second{width:100%;margin-top:8px}
+.fmt{display:flex;gap:14px;margin-top:10px;font-size:14px;color:var(--muted)}
+.fmt label{display:flex;align-items:center;gap:6px;margin:0;font-weight:500;color:var(--muted)}
+.privacy{font-size:12px;color:var(--muted);text-align:center;line-height:1.5;margin-top:6px}
+.drop{outline:3px dashed var(--acc2);outline-offset:-8px}
+.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 data-i="title">Вітальна картка партнера</h1>
+    <div class="lang" role="group" aria-label="Language">
+      <button type="button" data-lang="ua">UA</button>
+      <button type="button" data-lang="ru">RU</button>
+    </div>
+  </header>
+  <p class="sub" data-i="sub">Оберіть шаблон, завантажте фото, впишіть ім'я та прізвище — картка збереться сама.</p>
+
+  <div class="card">
+    <label for="tpl"><span class="step">1</span><span data-i="l_tpl">Шаблон</span></label>
+    <select id="tpl"></select>
+  </div>
+
+  <div class="card">
+    <label><span class="step">2</span><span data-i="l_name">Ім'я та прізвище партнера</span></label>
+    <p class="note" data-i="n_latin">Ім'я та прізвище бажано писати латиницею — як у закордонному паспорті та в кабінеті MWR Life.</p>
+    <div class="row">
+      <div>
+        <label for="fn" data-i="l_first">Ім'я</label>
+        <input type="text" id="fn" maxlength="30" autocomplete="off" autocapitalize="words" spellcheck="false">
+      </div>
+      <div>
+        <label for="ln" data-i="l_last">Прізвище</label>
+        <input type="text" id="ln" maxlength="30" autocomplete="off" autocapitalize="words" spellcheck="false">
+      </div>
+    </div>
+    <div class="hint" id="nameHint"></div>
+  </div>
+
+  <div class="card">
+    <label><span class="step">3</span><span data-i="l_photo">Фото партнера</span></label>
+    <div class="stage" id="stage"><canvas id="cv" width="1000" height="1000" aria-label="Preview"></canvas></div>
+    <input type="file" id="file" accept="image/*" class="hidden">
+    <div class="tools">
+      <button class="btn" type="button" id="bUpload" data-i="b_upload">Фото</button>
+      <button class="btn" type="button" id="bRot" data-i="b_rot" disabled>Повернути</button>
+      <button class="btn" type="button" id="bFlip" data-i="b_flip" disabled>Дзеркало</button>
+      <button class="btn" type="button" id="bReset" data-i="b_reset" disabled>Скинути</button>
+    </div>
+    <div class="zoom"><span data-i="l_zoom">Масштаб</span><input type="range" id="zoom" min="100" max="400" value="100" disabled><span id="zv">100%</span></div>
+    <div class="hint" id="photoHint" data-i="h_move" style="color:var(--muted)">Пересувайте фото пальцем або мишкою, масштаб — двома пальцями або повзунком.</div>
+  </div>
+
+  <div class="card">
+    <label><span class="step">4</span><span data-i="l_save">Зберегти</span></label>
+    <div class="fmt">
+      <label><input type="radio" name="fmt" value="jpg" checked> <span data-i="f_jpg">JPG (менший файл)</span></label>
+      <label><input type="radio" name="fmt" value="png"> PNG</label>
+    </div>
+    <button class="btn main" type="button" id="bSave" data-i="b_save" disabled>Завантажити картку</button>
+    <button class="btn second hidden" type="button" id="bShare" data-i="b_share">Поділитися</button>
+    <div class="hint" id="saveHint"></div>
+  </div>
+
+  <p class="privacy" data-i="privacy">Фото не завантажується в інтернет: картка збирається прямо у вашому браузері.</p>
+</div>
+
+<script>
+(function(){
+"use strict";
+var SIZE=2000;
+var I18N={
+ ua:{title:"Вітальна картка партнера",sub:"Оберіть шаблон, завантажте фото, впишіть ім'я та прізвище — картка збереться сама.",l_tpl:"Шаблон",l_name:"Ім'я та прізвище партнера",l_first:"Ім'я",l_last:"Прізвище",ph_first:"Olena",ph_last:"Kovalenko",n_latin:"Ім'я та прізвище бажано писати латиницею — як у закордонному паспорті та в кабінеті MWR Life.",l_photo:"Фото партнера",b_upload:"Фото",b_rot:"Повернути",b_flip:"Дзеркало",b_reset:"Скинути",l_zoom:"Масштаб",h_move:"Пересувайте фото пальцем або мишкою, масштаб — двома пальцями або повзунком.",l_save:"Зберегти",f_jpg:"JPG (менший файл)",b_save:"Завантажити картку",b_share:"Поділитися",privacy:"Фото не завантажується в інтернет: картка збирається прямо у вашому браузері.",tap:"Натисніть, щоб додати фото",g_new:"Новий партнер",g_fast:"Бонус швидкого старту",g_rank:"Статуси",g_bonus:"Бонуси",w_space:"Схоже, тут і ім'я, і прізвище. Прізвище впишіть у друге поле.",w_need:"Додайте фото та ім'я партнера.",w_photo:"Додайте фото партнера.",w_name:"Впишіть ім'я партнера.",w_bad:"Не вдалося відкрити це фото. Спробуйте інший файл (JPG або PNG).",saved:"Готово! Картку збережено.",tpl_err:"Не вдалося завантажити шаблон. Перевірте інтернет і оновіть сторінку."},
+ ru:{title:"Поздравительная карточка партнёра",sub:"Выберите шаблон, загрузите фото, впишите имя и фамилию — карточка соберётся сама.",l_tpl:"Шаблон",l_name:"Имя и фамилия партнёра",l_first:"Имя",l_last:"Фамилия",ph_first:"Olena",ph_last:"Kovalenko",n_latin:"Имя и фамилию желательно писать латиницей — как в загранпаспорте и в кабинете MWR Life.",l_photo:"Фото партнёра",b_upload:"Фото",b_rot:"Повернуть",b_flip:"Зеркало",b_reset:"Сбросить",l_zoom:"Масштаб",h_move:"Двигайте фото пальцем или мышкой, масштаб — двумя пальцами или ползунком.",l_save:"Сохранить",f_jpg:"JPG (меньше файл)",b_save:"Скачать карточку",b_share:"Поделиться",privacy:"Фото не загружается в интернет: карточка собирается прямо в вашем браузере.",tap:"Нажмите, чтобы добавить фото",g_new:"Новый партнёр",g_fast:"Бонус быстрого старта",g_rank:"Статусы",g_bonus:"Бонусы",w_space:"Похоже, здесь и имя, и фамилия. Фамилию впишите во второе поле.",w_need:"Добавьте фото и имя партнёра.",w_photo:"Добавьте фото партнёра.",w_name:"Впишите имя партнёра.",w_bad:"Не удалось открыть это фото. Попробуйте другой файл (JPG или PNG).",saved:"Готово! Карточка сохранена.",tpl_err:"Не удалось загрузить шаблон. Проверьте интернет и обновите страницу."}
+};
+/* Координаты в пикселях шаблона 2000x2000: hole = [cx, cy, r] — прозрачный круг; box = [x, y, w, h] — место для имени. */
+var SIDE={hole:[1522,934,419],box:[70,600,990,660]};
+var RANK={hole:[996,506,368],box:[250,1200,1500,250],color:"#ffffff",shadow:true};
+var T=[
+ {id:"new-ambassador",g:"g_new",name:"New Lifestyle Ambassador",hole:[1522,1116,394],box:[80,790,1010,650],color:"#2e2a78"},
+ {id:"fast-start-1",g:"g_fast",name:"Fast Start Bonus 1",hole:SIDE.hole,box:SIDE.box,color:"#ffffff",shadow:true},
+ {id:"fast-start-2",g:"g_fast",name:"Fast Start Bonus 2",hole:SIDE.hole,box:SIDE.box,color:"#ffffff",shadow:true},
+ {id:"fast-start-3",g:"g_fast",name:"Fast Start Bonus 3",hole:SIDE.hole,box:SIDE.box,color:"#ffffff",shadow:true},
+ {id:"platinum-bonus",g:"g_bonus",name:"Platinum Rank Achievement Bonus",hole:[1522,1010,400],box:[60,760,1030,640],color:"#1d4e5a"},
+ {id:"car-bonus",g:"g_bonus",name:"Car Bonus Earner",hole:[1000,860,408],box:[250,1300,1500,360],color:"#ffffff",shadow:true,noSplit:true}
+];
+["silver","gold","platinum","titanium","jade","pearl","emerald","ruby","sapphire","diamond","double-diamond","triple-diamond","blue-diamond","black-diamond","royal","double-royal","triple-royal","blue-royal","black-royal"].forEach(function(r){
+ var nm=r.split("-").map(function(s){return s.charAt(0).toUpperCase()+s.slice(1)}).join(" ")+" Ambassador";
+ T.push({id:"rank-"+r,g:"g_rank",name:nm,hole:r==="titanium"?[996,506,366]:RANK.hole,box:RANK.box,color:RANK.color,shadow:true,noSplit:true});
+});
+var GROUPS=["g_new","g_fast","g_rank","g_bonus"];
+
+var $=function(id){return document.getElementById(id)};
+var cv=$("cv"),ctx=cv.getContext("2d"),sel=$("tpl"),fn=$("fn"),ln=$("ln"),file=$("file"),zoom=$("zoom");
+var lang="ua",tpl=T[0],tplImg=null,photo=null,st={s:1,dx:0,dy:0,rot:0,flip:false};
+var cache={},fontReady=false;
+
+function t(k){return (I18N[lang]&&I18N[lang][k])||I18N.ua[k]||k}
+function store(k,v){try{localStorage.setItem(k,v)}catch(e){}}
+function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
+
+function setLang(l){
+ lang=I18N[l]?l:"ua";document.documentElement.lang=lang==="ua"?"uk":"ru";
+ document.querySelectorAll("[data-i]").forEach(function(el){el.textContent=t(el.getAttribute("data-i"))});
+ document.querySelectorAll(".lang button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-lang")===lang)});
+ fn.placeholder=t("ph_first");ln.placeholder=t("ph_last");document.title=t("title");
+ buildSelect();checkName();store("lang",lang);draw();
+}
+function buildSelect(){
+ var cur=sel.value||tpl.id;sel.innerHTML="";
+ GROUPS.forEach(function(g){var og=document.createElement("optgroup");og.label=t(g);
+  T.filter(function(x){return x.g===g}).forEach(function(x){var o=document.createElement("option");o.value=x.id;o.textContent=x.name;og.appendChild(o)});
+  sel.appendChild(og)});
+ sel.value=cur;
+}
+function loadTpl(id){
+ tpl=T.filter(function(x){return x.id===id})[0]||T[0];store("tpl",tpl.id);
+ if(cache[tpl.id]){tplImg=cache[tpl.id];draw();return}
+ tplImg=null;draw();
+ var im=new Image();im.onload=function(){cache[tpl.id]=im;if(tpl.id===id){tplImg=im;draw()}};
+ im.onerror=function(){$("saveHint").textContent=t("tpl_err")};
+ im.src="assets/t/"+tpl.id+".webp";
+}
+function clean(s){return s.replace(/\s+/g," ").trim()}
+function checkName(){
+ var h=$("nameHint");h.textContent=(clean(fn.value).indexOf(" ")>0&&!clean(ln.value))?t("w_space"):"";
+ updateButtons();
+}
+function updateButtons(){
+ var has=!!photo;["bRot","bFlip","bReset"].forEach(function(b){$(b).disabled=!has});zoom.disabled=!has;
+ $("bSave").disabled=!(has&&clean(fn.value));
+}
+
+/* --- рисование --- */
+function render(c,scale,preview){
+ c.setTransform(scale,0,0,scale,0,0);
+ c.clearRect(0,0,SIZE,SIZE);c.fillStyle="#000";c.fillRect(0,0,SIZE,SIZE);
+ var h=tpl.hole,cx=h[0],cy=h[1],r=h[2];
+ if(photo){
+  var w=photo.naturalWidth||photo.width,ht=photo.naturalHeight||photo.height;
+  var base=(2*r)/Math.min(w,ht);
+  c.save();c.beginPath();c.arc(cx,cy,r+12,0,Math.PI*2);c.clip();
+  c.translate(cx+st.dx,cy+st.dy);c.rotate(st.rot*Math.PI/180);if(st.flip)c.scale(-1,1);
+  var k=base*st.s;c.drawImage(photo,-w*k/2,-ht*k/2,w*k,ht*k);c.restore();
+ }else if(preview){
+  c.save();c.fillStyle="#d9dcef";c.beginPath();c.arc(cx,cy,r+6,0,Math.PI*2);c.fill();
+  c.fillStyle="#5b628f";c.font="700 "+Math.round(r*0.16)+"px MontserratB, sans-serif";c.textAlign="center";c.textBaseline="middle";
+  wrapCenter(c,t("tap"),cx,cy,r*1.5,r*0.2);c.restore();
+ }
+ if(tplImg)c.drawImage(tplImg,0,0,SIZE,SIZE);
+ drawName(c);
+}
+function wrapCenter(c,txt,x,y,maxW,lh){
+ var words=txt.split(" "),lines=[],cur="";
+ words.forEach(function(w){var test=cur?cur+" "+w:w;if(c.measureText(test).width>maxW&&cur){lines.push(cur);cur=w}else cur=test});
+ if(cur)lines.push(cur);
+ var y0=y-(lines.length-1)*lh/2;lines.forEach(function(l,i){c.fillText(l,x,y0+i*lh)});
+}
+function fitSize(c,l,w,max){var s=max;c.font="700 "+s+"px MontserratB, sans-serif";while(c.measureText(l).width>w&&s>24){s-=2;c.font="700 "+s+"px MontserratB, sans-serif"}return s}
+function drawName(c){
+ var a=clean(fn.value).toUpperCase(),b=clean(ln.value).toUpperCase();
+ var lines=[a,b].filter(Boolean);if(!lines.length)return;
+ var bx=tpl.box,w=bx[2]*0.94,h=bx[3],LH=1.15;
+ c.save();c.textAlign="center";c.textBaseline="middle";
+ var max=Math.min(Math.floor(h/lines.length/LH),150);
+ /* длинную двойную фамилию переносим по дефису на отдельную строку */
+ if(!tpl.noSplit&&b&&b.indexOf("-")>0&&fitSize(c,b,w,max)<max*0.62){var i=b.indexOf("-");lines=[a,b.slice(0,i+1),b.slice(i+1)].filter(Boolean);max=Math.min(Math.floor(h/lines.length/LH),150)}
+ var sizes=lines.map(function(l){return fitSize(c,l,w,max)});
+ /* имя и фамилия одного размера, если разница небольшая — так аккуратнее */
+ var mn=Math.min.apply(null,sizes);if(mn>=Math.max.apply(null,sizes)*0.8)sizes=sizes.map(function(){return mn});
+ c.fillStyle=tpl.color;
+ var total=sizes.reduce(function(s,x){return s+x*LH},0),y=bx[1]+(h-total)/2;
+ lines.forEach(function(l,i){var sz=sizes[i];c.font="700 "+sz+"px MontserratB, sans-serif";
+  if(tpl.shadow){c.shadowColor="rgba(0,0,0,.55)";c.shadowBlur=sz*0.25;c.shadowOffsetY=sz*0.04}
+  c.fillText(l,bx[0]+bx[2]/2,y+sz*LH/2);y+=sz*LH});
+ c.restore();
+}
+var raf=0;function draw(){if(raf)return;raf=requestAnimationFrame(function(){raf=0;render(ctx,cv.width/SIZE,true)})}
+function sizeCanvas(){var px=Math.min(1200,Math.round(cv.clientWidth*(window.devicePixelRatio||1)))||1000;if(cv.width!==px){cv.width=px;cv.height=px}draw()}
+
+/* --- фото --- */
+function openPhoto(f){
+ if(!f)return;var url=URL.createObjectURL(f),im=new Image();
+ im.onload=function(){photo=im;resetPos();$("saveHint").textContent="";updateButtons();draw()};
+ im.onerror=function(){$("saveHint").textContent=t("w_bad")};
+ im.src=url;
+}
+function resetPos(){st={s:1,dx:0,dy:0,rot:0,flip:false};zoom.value=100;$("zv").textContent="100%";draw()}
+function setScale(s){st.s=Math.max(1,Math.min(4,s));zoom.value=Math.round(st.s*100);$("zv").textContent=zoom.value+"%";draw()}
+
+/* --- жесты --- */
+var ptrs={},last=null,pinch=null;
+function k(){return SIZE/cv.clientWidth}
+cv.addEventListener("pointerdown",function(e){
+ if(!photo){file.click();return}
+ cv.setPointerCapture(e.pointerId);ptrs[e.pointerId]={x:e.clientX,y:e.clientY};cv.classList.add("dragging");
+ var ids=Object.keys(ptrs);if(ids.length===2){var p1=ptrs[ids[0]],p2=ptrs[ids[1]];pinch={d:Math.hypot(p1.x-p2.x,p1.y-p2.y),s:st.s}}
+});
+cv.addEventListener("pointermove",function(e){
+ if(!ptrs[e.pointerId])return;var prev=ptrs[e.pointerId];ptrs[e.pointerId]={x:e.clientX,y:e.clientY};
+ var ids=Object.keys(ptrs);
+ if(ids.length===2&&pinch){var p1=ptrs[ids[0]],p2=ptrs[ids[1]];var d=Math.hypot(p1.x-p2.x,p1.y-p2.y);if(pinch.d>0)setScale(pinch.s*d/pinch.d)}
+ else if(ids.length===1){st.dx+=(e.clientX-prev.x)*k();st.dy+=(e.clientY-prev.y)*k();draw()}
+});
+function up(e){delete ptrs[e.pointerId];if(Object.keys(ptrs).length<2)pinch=null;if(!Object.keys(ptrs).length)cv.classList.remove("dragging")}
+cv.addEventListener("pointerup",up);cv.addEventListener("pointercancel",up);
+cv.addEventListener("wheel",function(e){if(!photo)return;e.preventDefault();setScale(st.s*Math.exp(-e.deltaY*0.0015))},{passive:false});
+var stage=$("stage");
+stage.addEventListener("dragover",function(e){e.preventDefault();stage.classList.add("drop")});
+stage.addEventListener("dragleave",function(){stage.classList.remove("drop")});
+stage.addEventListener("drop",function(e){e.preventDefault();stage.classList.remove("drop");if(e.dataTransfer.files[0])openPhoto(e.dataTransfer.files[0])});
+
+/* --- кнопки --- */
+$("bUpload").onclick=function(){file.click()};
+file.onchange=function(){openPhoto(file.files[0]);file.value=""};
+$("bRot").onclick=function(){st.rot=(st.rot+90)%360;draw()};
+$("bFlip").onclick=function(){st.flip=!st.flip;draw()};
+$("bReset").onclick=resetPos;
+zoom.oninput=function(){setScale(zoom.value/100)};
+sel.onchange=function(){loadTpl(sel.value)};
+fn.oninput=function(){checkName();draw()};ln.oninput=function(){checkName();draw()};
+document.querySelectorAll(".lang button").forEach(function(b){b.onclick=function(){setLang(b.getAttribute("data-lang"))}});
+
+var TR={"а":"a","б":"b","в":"v","г":"h","ґ":"g","д":"d","е":"e","є":"ie","ё":"e","ж":"zh","з":"z","и":"y","і":"i","ї":"i","й":"i","к":"k","л":"l","м":"m","н":"n","о":"o","п":"p","р":"r","с":"s","т":"t","у":"u","ф":"f","х":"kh","ц":"ts","ч":"ch","ш":"sh","щ":"shch","ъ":"","ы":"y","ь":"","э":"e","ю":"iu","я":"ia"};
+function latin(s){return s.toLowerCase().split("").map(function(ch){return TR.hasOwnProperty(ch)?TR[ch]:ch}).join("")}
+function fileName(ext){
+ var n=latin(clean(fn.value)+"_"+clean(ln.value)).replace(/[^a-z0-9_-]+/g,"_").replace(/_+/g,"_").replace(/^_|_$/g,"");
+ return (n||"card")+"_"+tpl.id+"."+ext;
+}
+function makeBlob(cb){
+ var fmt=document.querySelector("input[name=fmt]:checked").value;
+ var c=document.createElement("canvas");c.width=SIZE;c.height=SIZE;render(c.getContext("2d"),1,false);
+ c.toBlob(function(b){cb(b,fmt)},fmt==="png"?"image/png":"image/jpeg",0.92);
+}
+$("bSave").onclick=function(){
+ if(!photo||!clean(fn.value)){$("saveHint").textContent=!photo&&!clean(fn.value)?t("w_need"):(!photo?t("w_photo"):t("w_name"));return}
+ makeBlob(function(b,fmt){var a=document.createElement("a");a.href=URL.createObjectURL(b);a.download=fileName(fmt);document.body.appendChild(a);a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},4000);$("saveHint").textContent=t("saved")});
+};
+$("bShare").onclick=function(){
+ if(!photo||!clean(fn.value)){$("saveHint").textContent=t("w_need");return}
+ makeBlob(function(b,fmt){var f=new File([b],fileName(fmt),{type:b.type});
+  if(navigator.canShare&&navigator.canShare({files:[f]}))navigator.share({files:[f]}).catch(function(){})});
+};
+try{var probe=new File([new Blob(["x"])],"x.png",{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[probe]}))$("bShare").classList.remove("hidden")}catch(e){}
+
+/* --- старт --- */
+var savedLang=load("lang");setLang(savedLang||((navigator.language||"").toLowerCase().indexOf("uk")===0?"ua":"ru"));
+var savedTpl=load("tpl");sel.value=savedTpl&&T.some(function(x){return x.id===savedTpl})?savedTpl:T[0].id;loadTpl(sel.value);
+if(document.fonts&&document.fonts.load){document.fonts.load('700 100px "MontserratB"').then(function(){fontReady=true;draw()})}
+window.addEventListener("resize",sizeCanvas);sizeCanvas();updateButtons();
+})();
+</script>
+</body>
+</html>
