@@ -53,6 +53,7 @@ input[type=range]{flex:1;accent-color:var(--acc2)}
     <div class="lang" role="group" aria-label="Language">
       <button type="button" data-lang="ua">UA</button>
       <button type="button" data-lang="ru">RU</button>
+      <button type="button" data-lang="en">EN</button>
     </div>
   </header>
   <p class="sub" data-i="sub">Оберіть шаблон, завантажте фото, впишіть ім'я та прізвище — картка збереться сама.</p>
@@ -112,7 +113,8 @@ input[type=range]{flex:1;accent-color:var(--acc2)}
 var SIZE=2000;
 var I18N={
  ua:{title:"Вітальна картка партнера",sub:"Оберіть шаблон, завантажте фото, впишіть ім'я та прізвище — картка збереться сама.",l_tpl:"Шаблон",l_name:"Ім'я та прізвище партнера",l_first:"Ім'я",l_last:"Прізвище",ph_first:"Olena",ph_last:"Kovalenko",n_latin:"Ім'я та прізвище бажано писати латиницею — як у закордонному паспорті та в кабінеті MWR Life.",l_photo:"Фото партнера",b_upload:"Фото",b_rot:"Повернути",b_flip:"Дзеркало",b_reset:"Скинути",l_zoom:"Масштаб",h_move:"Пересувайте фото пальцем або мишкою, масштаб — двома пальцями або повзунком.",l_save:"Зберегти",f_jpg:"JPG (менший файл)",b_save:"Завантажити картку",b_share:"Поділитися",privacy:"Фото не завантажується в інтернет: картка збирається прямо у вашому браузері.",tap:"Натисніть, щоб додати фото",g_new:"Новий партнер",g_fast:"Бонус швидкого старту",g_rank:"Статуси",g_bonus:"Бонуси",w_space:"Схоже, тут і ім'я, і прізвище. Прізвище впишіть у друге поле.",w_need:"Додайте фото та ім'я партнера.",w_photo:"Додайте фото партнера.",w_name:"Впишіть ім'я партнера.",w_bad:"Не вдалося відкрити це фото. Спробуйте інший файл (JPG або PNG).",saved:"Готово! Картку збережено.",tpl_err:"Не вдалося завантажити шаблон. Перевірте інтернет і оновіть сторінку."},
- ru:{title:"Поздравительная карточка партнёра",sub:"Выберите шаблон, загрузите фото, впишите имя и фамилию — карточка соберётся сама.",l_tpl:"Шаблон",l_name:"Имя и фамилия партнёра",l_first:"Имя",l_last:"Фамилия",ph_first:"Olena",ph_last:"Kovalenko",n_latin:"Имя и фамилию желательно писать латиницей — как в загранпаспорте и в кабинете MWR Life.",l_photo:"Фото партнёра",b_upload:"Фото",b_rot:"Повернуть",b_flip:"Зеркало",b_reset:"Сбросить",l_zoom:"Масштаб",h_move:"Двигайте фото пальцем или мышкой, масштаб — двумя пальцами или ползунком.",l_save:"Сохранить",f_jpg:"JPG (меньше файл)",b_save:"Скачать карточку",b_share:"Поделиться",privacy:"Фото не загружается в интернет: карточка собирается прямо в вашем браузере.",tap:"Нажмите, чтобы добавить фото",g_new:"Новый партнёр",g_fast:"Бонус быстрого старта",g_rank:"Статусы",g_bonus:"Бонусы",w_space:"Похоже, здесь и имя, и фамилия. Фамилию впишите во второе поле.",w_need:"Добавьте фото и имя партнёра.",w_photo:"Добавьте фото партнёра.",w_name:"Впишите имя партнёра.",w_bad:"Не удалось открыть это фото. Попробуйте другой файл (JPG или PNG).",saved:"Готово! Карточка сохранена.",tpl_err:"Не удалось загрузить шаблон. Проверьте интернет и обновите страницу."}
+ ru:{title:"Поздравительная карточка партнёра",sub:"Выберите шаблон, загрузите фото, впишите имя и фамилию — карточка соберётся сама.",l_tpl:"Шаблон",l_name:"Имя и фамилия партнёра",l_first:"Имя",l_last:"Фамилия",ph_first:"Olena",ph_last:"Kovalenko",n_latin:"Имя и фамилию желательно писать латиницей — как в загранпаспорте и в кабинете MWR Life.",l_photo:"Фото партнёра",b_upload:"Фото",b_rot:"Повернуть",b_flip:"Зеркало",b_reset:"Сбросить",l_zoom:"Масштаб",h_move:"Двигайте фото пальцем или мышкой, масштаб — двумя пальцами или ползунком.",l_save:"Сохранить",f_jpg:"JPG (меньше файл)",b_save:"Скачать карточку",b_share:"Поделиться",privacy:"Фото не загружается в интернет: карточка собирается прямо в вашем браузере.",tap:"Нажмите, чтобы добавить фото",g_new:"Новый партнёр",g_fast:"Бонус быстрого старта",g_rank:"Статусы",g_bonus:"Бонусы",w_space:"Похоже, здесь и имя, и фамилия. Фамилию впишите во второе поле.",w_need:"Добавьте фото и имя партнёра.",w_photo:"Добавьте фото партнёра.",w_name:"Впишите имя партнёра.",w_bad:"Не удалось открыть это фото. Попробуйте другой файл (JPG или PNG).",saved:"Готово! Карточка сохранена.",tpl_err:"Не удалось загрузить шаблон. Проверьте интернет и обновите страницу."},
+ en:{title:"Partner congratulation card",sub:"Choose a template, upload a photo, enter first and last name — the card is assembled automatically.",l_tpl:"Template",l_name:"Partner's first and last name",l_first:"First name",l_last:"Last name",ph_first:"Olena",ph_last:"Kovalenko",n_latin:"Please use Latin letters — exactly as in your passport and in your MWR Life back office.",l_photo:"Partner's photo",b_upload:"Photo",b_rot:"Rotate",b_flip:"Mirror",b_reset:"Reset",l_zoom:"Zoom",h_move:"Drag the photo with your finger or mouse; zoom with two fingers or the slider.",l_save:"Save",f_jpg:"JPG (smaller file)",b_save:"Download card",b_share:"Share",privacy:"Your photo is not uploaded anywhere: the card is created right in your browser.",tap:"Tap to add a photo",g_new:"New partner",g_fast:"Fast Start Bonus",g_rank:"Ranks",g_bonus:"Bonuses",w_space:"Looks like this field has both first and last name. Please put the last name in the second field.",w_need:"Add a photo and the partner's name.",w_photo:"Add the partner's photo.",w_name:"Enter the partner's first name.",w_bad:"Couldn't open this photo. Try another file (JPG or PNG).",saved:"Done! The card has been saved.",tpl_err:"Couldn't load the template. Check your connection and reload the page."}
 };
 /* Координаты в пикселях шаблона 2000x2000: hole = [cx, cy, r] — прозрачный круг; box = [x, y, w, h] — место для имени. */
 var SIDE={hole:[1522,934,419],box:[70,600,990,660]};
@@ -141,7 +143,7 @@ function store(k,v){try{localStorage.setItem(k,v)}catch(e){}}
 function load(k){try{return localStorage.getItem(k)}catch(e){return null}}
 
 function setLang(l){
- lang=I18N[l]?l:"ua";document.documentElement.lang=lang==="ua"?"uk":"ru";
+ lang=I18N[l]?l:"ua";document.documentElement.lang={ua:"uk",ru:"ru",en:"en"}[lang];
  document.querySelectorAll("[data-i]").forEach(function(el){el.textContent=t(el.getAttribute("data-i"))});
  document.querySelectorAll(".lang button").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-lang")===lang)});
  fn.placeholder=t("ph_first");ln.placeholder=t("ph_last");document.title=t("title");
@@ -288,7 +290,7 @@ $("bShare").onclick=function(){
 try{var probe=new File([new Blob(["x"])],"x.png",{type:"image/png"});if(navigator.canShare&&navigator.canShare({files:[probe]}))$("bShare").classList.remove("hidden")}catch(e){}
 
 /* --- старт --- */
-var savedLang=load("lang");setLang(savedLang||((navigator.language||"").toLowerCase().indexOf("uk")===0?"ua":"ru"));
+var savedLang=load("lang");var nl=(navigator.language||"").toLowerCase();setLang(savedLang||(nl.indexOf("uk")===0?"ua":(/^(ru|be|kk)/.test(nl)?"ru":"en")));
 var savedTpl=load("tpl");sel.value=savedTpl&&T.some(function(x){return x.id===savedTpl})?savedTpl:T[0].id;loadTpl(sel.value);
 if(document.fonts&&document.fonts.load){document.fonts.load('700 100px "MontserratB"').then(function(){fontReady=true;draw()})}
 window.addEventListener("resize",sizeCanvas);sizeCanvas();updateButtons();
